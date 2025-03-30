@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Matcher</title>
+</head>
+<body>
+    <h1>Upload Your Resume</h1>
+    <input type="file" id="resumeInput">
+    <button onclick="uploadResume()">Upload & Match Jobs</button>
+    <h2>Matched Jobs:</h2>
+    <div id="jobResults"></div>
+
+    <script>
+        async function uploadResume() {
+            const fileInput = document.getElementById("resumeInput");
+            const file = fileInput.files[0];
+            if (!file) {
+                alert("Please upload a resume first.");
+                return;
+            }
+    
+            const formData = new FormData();
+            formData.append("resume", file);
+    
+            try {
+                // Using localhost instead of 127.0.0.1 to avoid potential CORS issues
+                const response = await fetch("http://localhost:5000/upload-resume", {
+                    method: "POST",
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Upload error:", errorText);
+                    throw new Error("Failed to upload resume");
+                }
+                
+                const result = await response.json();
+                console.log("Parsed Resume:", result);
+                
+                const matchResponse = await fetch("http://localhost:5000/match-jobs", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ parsed_resume: result.parsed_resume })
+                });
+                
+                if (!matchResponse.ok) {
+                    const errorText = await matchResponse.text();
+                    console.error("Match error:", errorText);
+                    throw new Error("Failed to match jobs");
+                }
+                
+                const matchData = await matchResponse.json();
+                console.log("Matched Jobs:", matchData);
+                
+                const jobResults = document.getElementById("jobResults");
+                jobResults.innerHTML = ""; 
+                
+                if (matchData.matched_jobs && matchData.matched_jobs.length > 0) {
+                    matchData.matched_jobs.forEach(job => {
+                        const jobElement = document.createElement("div");
+                        jobElement.innerHTML = `<strong>${job.job.job_title}</strong> - Score: ${job.score}%<br>`;
+                        jobResults.appendChild(jobElement);
+                    });
+                } else {
+                    jobResults.innerHTML = "<p>No matching jobs found.</p>";
+                }
+    
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Something went wrong! Check the console for details.");
+            }
+        }
+    </script>    
+</body>
+</html>
