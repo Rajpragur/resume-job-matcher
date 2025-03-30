@@ -1,7 +1,7 @@
-## Resume Job Matcher
+# Resume Job Matcher
 A web application that parses resumes and matches them with job listings based on skills, experience, and education requirements.
 
-# Features
+## Features
 Resume Parsing: Upload PDF resumes and extract key information using natural language processing
 
 Skill Extraction: Automatically identify technical and soft skills from resume text
@@ -14,7 +14,7 @@ Job Matching Algorithm: Score and rank job listings based on resume compatibilit
 
 User-Friendly Interface: Simple web interface for uploading resumes and viewing matched jobs
 
-# Technologies Used
+## Technologies Used
 Backend: Python, Flask, Flask-CORS
 
 Frontend: HTML, JavaScript
@@ -27,7 +27,7 @@ Job Data: JSSearch API via RapidAPI
 
 Text Processing: Regular expressions, fuzzy matching
 
-# Project Structure
+## Project Structure
 
 resumematcher/
 ├── backend/
@@ -38,7 +38,7 @@ resumematcher/
 │   ├── job_data.py
 │   └── resume_parser.py
 └── README.md
-# How It Works
+## How It Works
 Users upload their resume in PDF format
 
 The system extracts key information including skills, experience, and education
@@ -51,25 +51,25 @@ Matched jobs are displayed to the user with their compatibility scores
 
 ## Setup and Installation
 
-# Clone the repository
+### Clone the repository
 
 1. git clone https://github.com/rajpragur/resume-job-matcher.git
 2. cd resume-job-matcher
-# Install required dependencies
+### Install required dependencies
 
 1. pip install flask flask-cors requests rapidfuzz spacy pdfplumber PyPDF2
 2. python -m spacy download en_core_web_lg
 
-# Run the application
+### Run the application
 
 1. cd backend
 2. python app.py
 3. Open your browser and navigate to http://localhost:5000
 
-# Future Improvements
+## Future Improvements
 Add user authentication and profile saving
 
-Implement more sophisticated NLP for better skill extraction
+Implement more sophisticated NLP for better sk  ill extraction
 
 Add resume improvement suggestions
 
